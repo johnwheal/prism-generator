@@ -19,8 +19,8 @@ class Controller extends BaseController
      */
     public function netWorth()
     {
-        $item1 = new DataItem('Test Item 1', [2000, 4000, 3000], [1427760000000,1435622400000,1443571200000]);
-        $item2 = new DataItem('Test Item 2,', [4000, 1000, 4000], [1427760000000,1435622400000,1443571200000]);
+        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000]);
+        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000]);
         $dataItems = [$item1, $item2];
         $totalAssets = 40000;
         $totalLiabilities = -2000;
@@ -40,7 +40,16 @@ class Controller extends BaseController
      */
     public function assets()
     {
-        return view('assets');
+        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000], [1000, 1000, 1000]);
+        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000], [2000, 2000, 2000]);
+        $dataItems = [$item1, $item2];
+
+        $overallDataItem = $item1;
+
+        return view('assets', [
+            'overallDataItem' => $overallDataItem,
+            'dataItems' => $dataItems,
+        ]);
     }
 
     /**
@@ -50,7 +59,16 @@ class Controller extends BaseController
      */
     public function liabilities()
     {
-        return view('liabilities');
+        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000], [1000, 1000, 1000]);
+        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000], [2000, 2000, 2000]);
+        $dataItems = [$item1, $item2];
+
+        $overallDataItem = $item1;
+
+        return view('liabilities', [
+            'overallDataItem' => $overallDataItem,
+            'dataItems' => $dataItems,
+        ]);
     }
 
     /**
@@ -70,7 +88,16 @@ class Controller extends BaseController
      */
     public function investments()
     {
-        return view('investments');
+        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000], [1000, 1000, 1000]);
+        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000], [2000, 2000, 2000]);
+        $dataItems = [$item1, $item2];
+
+        $overallDataItem = $item1;
+
+        return view('investments', [
+            'overallDataItem' => $overallDataItem,
+            'dataItems' => $dataItems,
+        ]);
     }
 
     /**

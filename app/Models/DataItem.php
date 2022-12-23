@@ -22,16 +22,42 @@ class DataItem
     public array $values;
 
     /**
+     * The paid in values
+     *
+     * @var array
+     */
+    public array $paidIn;
+
+    /**
      * Dates
      *
      * @var array
      */
     public array $dates;
 
-    public function __construct(string $name, array $values, array $dates)
+    /**
+     * The constructor
+     *
+     * @param string $name
+     * @param array $dates
+     * @param array $values
+     * @param array $paidIn
+     */
+    public function __construct(string $name, array $dates, array $values, array $paidIn = [])
     {
         $this->name = $name;
-        $this->values = $values;
         $this->dates = $dates;
+        $this->values = $values;
+        $this->paidIn = $paidIn;
+    }
+
+    /**
+     * Returns whether the item has paid in data
+     *
+     * @return bool
+     */
+    public function hasPaidIn(): bool
+    {
+        return (count($this->paidIn) != 0);
     }
 }
