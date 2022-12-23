@@ -64,12 +64,7 @@
                 }
             },
             colors: [
-                '#fd7e14',
-                '#3B7DDD',
-                '#669ae5',
-                '#20c997',
-                '#6f42c1',
-                '#dc3545'
+                '#000'
             ]
         }
         var chart = new ApexCharts(
@@ -115,12 +110,7 @@
                 }
             },
             colors: [
-                '#fd7e14',
-                '#3B7DDD',
-                '#669ae5',
-                '#20c997',
-                '#6f42c1',
-                '#dc3545'
+                '#000',
             ]
         }
         var chart = new ApexCharts(
