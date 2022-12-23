@@ -78,7 +78,23 @@ class Controller extends BaseController
      */
     public function interestRates()
     {
-        return view('interest-rates');
+        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2, 2, 3]);
+        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [1, 2.3, 2.2]);
+        $dataItems = [$item1, $item2];
+
+        $overallDataItem = $item1;
+
+        $effectiveInterestRate = 1.89;
+        $highestInterestRate = 5.4;
+        $lowestInterestRate = 1.9;
+
+        return view('interest-rates', [
+            'effectiveInterestRate' => $effectiveInterestRate,
+            'overallDataItem' => $overallDataItem,
+            'dataItems' => $dataItems,
+            'highestInterestRate' => $highestInterestRate,
+            'lowestInterestRate' => $lowestInterestRate,
+        ]);
     }
 
     /**
