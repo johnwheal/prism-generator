@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="John Wheal">
     <title>Prism</title>
-
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     @vite(['resources/js/app.js'])
 </head>
 <body>
@@ -76,6 +76,21 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Net Worth</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+
+            </script>
         </main>
     </div>
 </div>

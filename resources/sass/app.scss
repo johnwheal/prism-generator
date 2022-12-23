@@ -77,3 +77,15 @@ body {
     top: .25rem;
     right: 1rem;
 }
+
+.card {
+    margin-bottom: 20px;
+
+    .card-header {
+        background-color: $gray-200;
+    }
+
+    h4 {
+        margin-top: .5rem;
+    }
+}
