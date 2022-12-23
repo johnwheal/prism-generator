@@ -64,6 +64,18 @@
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                 <h1 class="h2">Net Worth</h1>
             </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <h5 class="card-title">Risk Value</h5>
+                            </div>
+                            <h1 class="display-5 mt-1 mb-3">&pound;290</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 </div>
