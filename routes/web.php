@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [Controller::class, 'netWorth'])->name('netWorth');
+Route::get('/assets', [Controller::class, 'assets'])->name('assets');
+Route::get('/liabilities', [Controller::class, 'liabilities'])->name('liabilities');
+Route::get('/interest-rates', [Controller::class, 'interestRates'])->name('interestRates');
+Route::get('/investments', [Controller::class, 'investments'])->name('investments');
+Route::get('/charity', [Controller::class, 'charity'])->name('charity');
