@@ -107,6 +107,12 @@ class Controller extends BaseController
      */
     public function charity()
     {
-        return view('charity');
+        $cumulativeDonations = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000]);
+        $donationsPerQuarter = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000]);
+
+        return view('charity', [
+            'cumulativeDonations' => $cumulativeDonations,
+            'donationsPerQuarter' => $donationsPerQuarter,
+        ]);
     }
 }
