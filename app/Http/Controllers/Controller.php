@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DataItem;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -18,7 +19,18 @@ class Controller extends BaseController
      */
     public function netWorth()
     {
-        return view('net-worth');
+        $item1 = new DataItem('Test Item 1', [2000, 4000, 3000], [1427760000000,1435622400000,1443571200000]);
+        $item2 = new DataItem('Test Item 2,', [4000, 1000, 4000], [1427760000000,1435622400000,1443571200000]);
+        $dataItems = [$item1, $item2];
+        $totalAssets = 40000;
+        $totalLiabilities = -2000;
+        $netWorth = $totalAssets + $totalLiabilities;
+        return view('net-worth', [
+            'dataItems' => $dataItems,
+            'totalAssets' => $totalAssets,
+            'totalLiabilities' => $totalLiabilities,
+            'netWorth' => $netWorth,
+        ]);
     }
 
     /**
