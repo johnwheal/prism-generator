@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Storage;
 
 abstract class AbstractAsset
@@ -38,6 +39,13 @@ abstract class AbstractAsset
     public array $dates = [];
 
     /**
+     * Flag whether the item has paid in data
+     *
+     * @var bool
+     */
+    public bool $hasPaidIn = false;
+
+    /**
      * Get all the data
      *
      * @param string $fileName
@@ -58,11 +66,37 @@ abstract class AbstractAsset
 
             foreach ($jsonAsset->data as $data) {
                 $asset->values[] = $data->value;
-                $asset->paidIn[] = $data->paid_in;
+                if ($asset->hasPaidIn) $asset->paidIn[] = $data->paid_in;
                 $asset->dates[] = self::convertQuarterToDate($data->date);
             }
 
             $assets[] = $asset;
+        }
+
+        $assets= self::addInitialQuarter($assets);
+
+        return $assets;
+    }
+
+    /**
+     * Add an inital quarter
+     *
+     * @param $assets
+     * @return mixed
+     */
+    public static function addInitialQuarter($assets)
+    {
+        foreach ($assets as $asset) {
+            if ($asset->dates[0]->year != Env::get('START_YEAR')) {
+                $date = $asset->dates[0]->clone();
+                $date->addDay()->subQuarter()->subDay();
+
+                array_unshift($asset->dates, $date);
+                array_unshift($asset->values, 0);
+                if ($asset->hasPaidIn) {
+                    array_unshift($asset->paidIn, 0);
+                }
+            }
         }
 
         return $assets;
@@ -139,7 +173,7 @@ abstract class AbstractAsset
             //If data has been found for the date
             if ($dateIndex >= 0) {
                 $newValues[] = $this->values[$dateIndex];
-                $newPaidIn[] = $this->paidIn[$dateIndex];
+                if ($this->hasPaidIn) $newPaidIn[] = $this->paidIn[$dateIndex];
             } else {
                 $newValues[] = 0;
                 $newPaidIn[] = 0;
@@ -183,8 +217,8 @@ abstract class AbstractAsset
             $paidIn = 0;
 
             foreach ($assets as $asset) {
-                $value += $asset->values[$index];
-                $paidIn += $asset->paidIn[$index];
+                if (isset($asset->values[$index])) $value += $asset->values[$index];
+                if($asset->hasPaidIn) $paidIn += $asset->paidIn[$index];
             }
 
             $overallAssets->values[] = $value;

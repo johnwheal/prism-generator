@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\DataItem;
+use App\Models\Liability;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -75,11 +76,23 @@ class Controller extends BaseController
      */
     public function liabilities()
     {
-        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000], [1000, 1000, 1000]);
-        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000], [2000, 2000, 2000]);
-        $dataItems = [$item1, $item2];
+        $liabilities = Liability::getAllLiabilities();
+        $dataItems = [];
 
-        $overallDataItem = $item1;
+        foreach ($liabilities as $liability) {
+            $dataItems[] = new DataItem(
+                $liability->name,
+                $liability->getPreciseTimestamps(),
+                $liability->values
+            );
+        }
+
+        $overallPerformance = Liability::combineData($liabilities);
+        $overallDataItem = new DataItem(
+            'Overall Performance',
+            $overallPerformance->getPreciseTimestamps(),
+            $overallPerformance->values
+        );
 
         return view('liabilities', [
             'overallDataItem' => $overallDataItem,

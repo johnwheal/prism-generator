@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Storage;
 class Asset extends AbstractAsset
 {
     /**
+     * Flag that the asset has paid in data
+     *
+     * @var bool
+     */
+    public bool $hasPaidIn = true;
+
+    /**
      * Get all the assets
      *
      * @return array
