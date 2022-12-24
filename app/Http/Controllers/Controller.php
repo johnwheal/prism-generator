@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\DataItem;
+use App\Models\Donation;
 use App\Models\Investment;
 use App\Models\Liability;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -167,8 +169,21 @@ class Controller extends BaseController
      */
     public function charity()
     {
-        $cumulativeDonations = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000]);
-        $donationsPerQuarter = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000]);
+        $donations = Donation::getAllDonations();
+
+        $donationsPerQuarter = new DataItem(
+            'Donations',
+            $donations->getPreciseTimestamps(),
+            $donations->values
+        );
+
+        $donations->convertToCumulative();
+
+        $cumulativeDonations = new DataItem(
+            'Cumulative Donations',
+            $donations->getPreciseTimestamps(),
+            $donations->values
+        );
 
         return view('charity', [
             'cumulativeDonations' => $cumulativeDonations,
