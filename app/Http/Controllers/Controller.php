@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\DataItem;
+use App\Models\Investment;
 use App\Models\Liability;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -133,11 +134,25 @@ class Controller extends BaseController
      */
     public function investments()
     {
-        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000], [1000, 1000, 1000]);
-        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000], [2000, 2000, 2000]);
-        $dataItems = [$item1, $item2];
+        $investments = Investment::getAllInvestments();
+        $dataItems = [];
 
-        $overallDataItem = $item1;
+        foreach ($investments as $investment) {
+            $dataItems[] = new DataItem(
+                $investment->name,
+                $investment->getPreciseTimestamps(),
+                $investment->values,
+                $investment->getCalculatedPaidIn()
+            );
+        }
+
+        $overallPerformance = Asset::combineData($investments);
+        $overallDataItem = new DataItem(
+            'Overall Performance',
+            $overallPerformance->getPreciseTimestamps(),
+            $overallPerformance->values,
+            $overallPerformance->getCalculatedPaidIn()
+        );
 
         return view('investments', [
             'overallDataItem' => $overallDataItem,
