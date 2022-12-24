@@ -54,7 +54,7 @@ class Controller extends BaseController
             );
         }
 
-        $overallPerformance = Asset::combineAssets($assets);
+        $overallPerformance = Asset::combineData($assets);
         $overallDataItem = new DataItem(
             'Overall Performance',
             $overallPerformance->getPreciseTimestamps(),
