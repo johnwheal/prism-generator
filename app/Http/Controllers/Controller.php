@@ -8,6 +8,7 @@ use App\Models\Donation;
 use App\Models\InterestRate;
 use App\Models\Investment;
 use App\Models\Liability;
+use App\Models\NetWorth;
 use Dflydev\DotAccessData\Data;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -25,12 +26,18 @@ class Controller extends BaseController
      */
     public function netWorth()
     {
-        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2000, 4000, 3000]);
-        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [4000, 1000, 4000]);
-        $dataItems = [$item1, $item2];
+        $netWorth = NetWorth::getNetWorth();
+        $dataItems = [];
+        foreach ($netWorth as $asset) {
+            $dataItems[] = new DataItem(
+                $asset->name,
+                $asset->getPreciseTimestamps(),
+                $asset->values,
+            );
+        }
 
-        $totalAssets = 40000;
-        $totalLiabilities = -2000;
+        $totalAssets = NetWorth::getTotalAssets($netWorth);
+        $totalLiabilities = NetWorth::getTotalLiabilities($netWorth);
         $netWorth = $totalAssets + $totalLiabilities;
         return view('net-worth', [
             'dataItems' => $dataItems,

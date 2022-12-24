@@ -229,11 +229,11 @@ abstract class AbstractAsset
      * @param array $assets
      * @return Asset
      */
-    public static function combineData(array $assets)
+    public static function combineData(array $assets, $name = '')
     {
         $class = get_called_class();
         $overallAssets = new $class();
-        $overallAssets->name = 'Overall Performance';
+        $overallAssets->name = $name;
 
         $oldestQuarter = self::getOldestQuarter($assets);
         $newestQuarter = self::getLastQuarter($assets);
@@ -253,6 +253,8 @@ abstract class AbstractAsset
             $paidIn = 0;
 
             foreach ($assets as $asset) {
+                //Ignore student loan
+                if ($asset->name == 'Student Loan') continue;
                 if (isset($asset->values[$index])) $value += $asset->values[$index];
                 if($asset->hasPaidIn) $paidIn += $asset->paidIn[$index];
             }
