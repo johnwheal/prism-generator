@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Storage;
 abstract class AbstractAsset
 {
     /**
+     * The file name of the data
+     *
+     * @var string
+     */
+    public string $fileName = '';
+
+    /**
      * The name of the item
      *
      * @var string

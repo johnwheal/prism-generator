@@ -156,9 +156,14 @@ class Controller extends BaseController
             $overallPerformance->getCalculatedPaidIn()
         );
 
+        $lowRiskValue = Investment::getLowRiskValue($investments);
+        $liquidValue = Investment::getLiquidValue($investments);
+
         return view('investments', [
             'overallDataItem' => $overallDataItem,
             'dataItems' => $dataItems,
+            'lowRiskValue' => $lowRiskValue,
+            'liquidValue' => $liquidValue,
         ]);
     }
 
