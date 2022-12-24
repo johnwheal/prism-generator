@@ -19,6 +19,9 @@
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3 sidebar-sticky">
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                    <span>Key Data</span>
+                </h6>
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link @if(Route::currentRouteName() == 'netWorth') active @endif" href="{{ route('netWorth') }}">
@@ -54,6 +57,17 @@
                         <a class="nav-link @if(Route::currentRouteName() == 'charity') active @endif" href="{{ route('charity') }}.html">
                             <x-feathericon-smile/>
                             Charity
+                        </a>
+                    </li>
+                </ul>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                    <span>Other</span>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://strategy.wheal.co.uk">
+                            <x-feathericon-book-open/>
+                            Financial Strategy
                         </a>
                     </li>
                 </ul>
