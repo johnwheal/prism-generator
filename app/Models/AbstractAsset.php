@@ -148,46 +148,74 @@ abstract class AbstractAsset
     }
 
     /**
+     * Get the last (most recent) quarter
+     *
+     * @param $assets
+     * @return Carbon|mixed
+     */
+    public static function getLastQuarter($assets)
+    {
+        $lastDate = Carbon::now()->subCenturies(1);
+
+        foreach ($assets as $asset) {
+            foreach ($asset->dates as $date) {
+                if ($date->isAfter($lastDate)) {
+                    $lastDate = $date;
+                }
+            }
+        }
+
+        return $lastDate;
+    }
+
+    /**
      * Pad the data to a date (i.e. add earlier quarters)
      *
      * @param Carbon $dateToPad
+     * @param bool $shouldNull
      * @return void
      */
-    public function padToDate(Carbon $dateToPad)
+    public function padToDate(Carbon $dateToPadFrom, Carbon $dateToPadTo, $shouldNull = false)
     {
-        $lastDate = end($this->dates)->clone();
-        $lastDate->addDay();
+        $dateToPadTo = $dateToPadTo->clone();
+        $dateToPadTo->addDay();
+
+        $dateToPadFrom = $dateToPadFrom->clone();
 
         $newDates = [];
         $newValues = [];
         $newPaidIn = [];
 
         //Loop through all the quarters
-        while ($dateToPad->isBefore($lastDate)) {
+        while ($dateToPadFrom->isBefore($dateToPadTo)) {
 
             $dateIndex = -1;
 
             //Loop through all the data
             foreach ($this->dates as $index => $date) {
-                if ($dateToPad->timestamp == $date->timestamp) {
+                if ($dateToPadFrom->timestamp == $date->timestamp) {
                     $dateIndex = $index;
                     break;
                 }
             }
 
-            $newDates[] = $dateToPad->clone();
+            $newDates[] = $dateToPadFrom->clone();
 
             //If data has been found for the date
             if ($dateIndex >= 0) {
                 $newValues[] = $this->values[$dateIndex];
                 if ($this->hasPaidIn) $newPaidIn[] = $this->paidIn[$dateIndex];
             } else {
-                $newValues[] = 0;
+                if ($shouldNull) {
+                    $newValues[] = null;
+                } else {
+                    $newValues[] = 0;
+                }
                 $newPaidIn[] = 0;
             }
 
             //Add a quarter
-            $dateToPad->addDay()->addQuarter()->subDay();
+            $dateToPadFrom->addDay()->addQuarter()->subDay();
         }
 
         $this->dates = $newDates;
@@ -208,10 +236,11 @@ abstract class AbstractAsset
         $overallAssets->name = 'Overall Performance';
 
         $oldestQuarter = self::getOldestQuarter($assets);
+        $newestQuarter = self::getLastQuarter($assets);
 
         //Pad the dates to make them the same
         foreach ($assets as $asset) {
-            $asset->padToDate($oldestQuarter->clone());
+            $asset->padToDate($oldestQuarter, $newestQuarter);
         }
 
         //They will all have the same dates because they've been padded

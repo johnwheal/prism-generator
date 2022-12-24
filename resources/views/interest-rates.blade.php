@@ -82,6 +82,8 @@
                 categories: {{ json_encode($overallDataItem->dates) }},
             },
             yaxis: {
+                min: 0,
+                max: {{ ceil($highestInterestRate) }},
                 forceNiceScale: true,
                 decimalsInFloat: 0,
                 labels: {

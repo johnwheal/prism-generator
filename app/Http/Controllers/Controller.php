@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\DataItem;
 use App\Models\Donation;
+use App\Models\InterestRate;
 use App\Models\Investment;
 use App\Models\Liability;
 use Dflydev\DotAccessData\Data;
@@ -110,15 +111,26 @@ class Controller extends BaseController
      */
     public function interestRates()
     {
-        $item1 = new DataItem('Test Item 1', [1427760000000,1435622400000,1443571200000], [2, 2, 3]);
-        $item2 = new DataItem('Test Item 2', [1427760000000,1435622400000,1443571200000], [1, 2.3, 2.2]);
-        $dataItems = [$item1, $item2];
+        $interestRates = InterestRate::getAllInterestRates();
 
-        $overallDataItem = $item1;
+        foreach ($interestRates as $interestRate) {
+            $dataItems[] = new DataItem(
+                $interestRate->name,
+                $interestRate->getPreciseTimestamps(),
+                $interestRate->values
+            );
+        }
 
-        $effectiveInterestRate = 1.89;
-        $highestInterestRate = 5.4;
-        $lowestInterestRate = 1.9;
+        $overallInterestRates = InterestRate::getOverallInterestRate($interestRates);
+        $overallDataItem = new DataItem(
+            'Overall Interest Rates',
+            $overallInterestRates->getPreciseTimestamps(),
+            $overallInterestRates->values
+        );
+
+        $effectiveInterestRate = $overallInterestRates->getEffectiveInterestRate();
+        $highestInterestRate = InterestRate::getHighestInterestRate($interestRates);
+        $lowestInterestRate = InterestRate::getLowestInterestRate($interestRates);
 
         return view('interest-rates', [
             'effectiveInterestRate' => $effectiveInterestRate,
