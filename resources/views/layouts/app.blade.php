@@ -27,31 +27,31 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(Route::currentRouteName() == 'assets') active @endif" href="{{ route('assets') }}">
+                        <a class="nav-link @if(Route::currentRouteName() == 'investments') active @endif" href="{{ route('investments') }}.html">
+                            <x-feathericon-bar-chart/>
+                            Investments
+                        </a>
+                    <li class="nav-item">
+                        <a class="nav-link @if(Route::currentRouteName() == 'assets') active @endif" href="{{ route('assets') }}.html">
                             <x-feathericon-arrow-up/>
                             Assets
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(Route::currentRouteName() == 'liabilities') active @endif" href="{{ route('liabilities') }}">
+                        <a class="nav-link @if(Route::currentRouteName() == 'liabilities') active @endif" href="{{ route('liabilities') }}.html">
                             <x-feathericon-arrow-down/>
                             Liabilities
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(Route::currentRouteName() == 'interestRates') active @endif" href="{{ route('interestRates') }}">
+                        <a class="nav-link @if(Route::currentRouteName() == 'interestRates') active @endif" href="{{ route('interestRates') }}.html">
                             <x-feathericon-bar-chart-2/>
                             Interest Rates
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link @if(Route::currentRouteName() == 'investments') active @endif" href="{{ route('investments') }}">
-                            <x-feathericon-bar-chart/>
-                            Investments
-                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if(Route::currentRouteName() == 'charity') active @endif" href="{{ route('charity') }}">
+                        <a class="nav-link @if(Route::currentRouteName() == 'charity') active @endif" href="{{ route('charity') }}.html">
                             <x-feathericon-smile/>
                             Charity
                         </a>
