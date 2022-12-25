@@ -66,8 +66,8 @@
             decimalsInFloat: 0,
             @yield('max-y')
             labels: {
-            formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
-        }
+                formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+            }
         },
             tooltip: {
             enabled: true,

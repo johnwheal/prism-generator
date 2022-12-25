@@ -213,11 +213,14 @@ class Controller extends BaseController
         $lowRiskValue = Investment::getLowRiskValue($investments);
         $liquidValue = Investment::getLiquidValue($investments);
 
+        $allocation = Investment::getAllocations($investments);
+
         return view('investments', [
             'overallDataItem' => $overallDataItem,
             'dataItems' => $dataItems,
             'lowRiskValue' => $lowRiskValue,
             'liquidValue' => $liquidValue,
+            'allocation' => $allocation,
         ]);
     }
 

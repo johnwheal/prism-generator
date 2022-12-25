@@ -103,4 +103,30 @@ class Investment extends AbstractAsset
 
         return $liquidValue;
     }
+
+    /**
+     * Get the allocations
+     *
+     * @param array $investments
+     * @return \stdClass
+     */
+    public static function getAllocations(array $investments): \stdClass
+    {
+        $allocations = new \stdClass();
+        $allocations->items = [];
+        $allocations->data = [];
+
+        foreach ($investments as $investment) {
+            $lastQuarter = Asset::getLastQuarter($investments);
+
+            foreach ($investment->dates as $index => $date) {
+                if ($date->timestamp == $lastQuarter->timestamp) {
+                    $allocations->items[] = $investment->name;
+                    $allocations->data[] = $investment->values[$index];
+                }
+            }
+        }
+
+        return $allocations;
+    }
 }
