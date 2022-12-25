@@ -50,7 +50,7 @@ abstract class AbstractAsset
      *
      * @var bool
      */
-    public bool $hasPaidIn = false;
+    protected bool $hasPaidIn = false;
 
     /**
      * Get all the data
@@ -204,7 +204,7 @@ abstract class AbstractAsset
             //If data has been found for the date
             if ($dateIndex >= 0) {
                 $newValues[] = $this->values[$dateIndex];
-                if ($this->hasPaidIn) $newPaidIn[] = $this->paidIn[$dateIndex];
+                if ($this->hasPaidIn && count ($this->paidIn) > 0) $newPaidIn[] = $this->paidIn[$dateIndex];
             } else {
                 if ($shouldNull) {
                     $newValues[] = null;

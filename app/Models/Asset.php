@@ -14,7 +14,7 @@ class Asset extends AbstractAsset
      *
      * @var bool
      */
-    public bool $hasPaidIn = true;
+    protected bool $hasPaidIn = true;
 
     /**
      * Get all the assets

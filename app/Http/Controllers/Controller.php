@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\BoeInterestRate;
 use App\Models\DataItem;
 use App\Models\Donation;
 use App\Models\InterestRate;
@@ -162,11 +163,19 @@ class Controller extends BaseController
 
         $effectiveInvestmentInterestRate = $overallInvestmentInterestRates->getEffectiveInterestRate();
 
+        $boeInterestRates = InterestRate::getBankOfEndEnglandInterestRates();
+        $boeDataItem = new DataItem(
+            'Bank of England Interest Rate',
+            $boeInterestRates->getPreciseTimestamps(),
+            $boeInterestRates->values
+        );
+
         return view('interest-rates', [
             'effectiveLiabilityInterestRate' => $effectiveLiabilityInterestRate,
             'effectiveInvestmentInterestRate' => $effectiveInvestmentInterestRate,
             'overallLiabilityDataItem' => $overallLiabilityDataItem,
             'overallInvestmentDataItem' => $overallInvestmentDataItem,
+            'boeDataItem' => $boeDataItem,
             'liabilityDataItems' => $liabilityDataItems,
             'investmentDataItems' => $investmentDataItems,
             'highestInterestRate' => $highestInterestRate,

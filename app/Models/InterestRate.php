@@ -14,7 +14,7 @@ class InterestRate extends AbstractAsset
      *
      * @var bool
      */
-    public bool $hasPaidIn = true;
+    protected bool $hasPaidIn = true;
 
     /**
      * Get all liability interest rates
@@ -37,12 +37,22 @@ class InterestRate extends AbstractAsset
     }
 
     /**
+     * Get Bank of England Base Rates
+     *
+     * @return array
+     */
+    public static function getBankOfEndEnglandInterestRates()
+    {
+        return self::getAllInterestRates('data/boe-base-rate.json')[0];
+    }
+
+    /**
      * Get all the interest rates fora given type of asset
      *
      * @param string $fileName
      * @return array
      */
-    private static function getAllInterestRates(string $fileName): array
+    protected static function getAllInterestRates(string $fileName): array
     {
         $jsonData= Storage::get($fileName);
         $jsonData = json_decode($jsonData);
@@ -51,15 +61,18 @@ class InterestRate extends AbstractAsset
         $interestRates = [];
 
         foreach ($jsonData as $json) {
-            $interestRate = new InterestRate();
+            $interestRate = new self();
             $interestRate->name = $json->name;
 
             //Don't care if it's not got an interest rate
             if ($json->fixed_interest) {
                 foreach ($json->data as $data) {
                     $interestRate->values[] = $data->interest_rate;
-                    $interestRate->paidIn[] = $data->value;
                     $interestRate->dates[] = self::convertQuarterToDate($data->date);
+
+                    if (isset($data->value)) {
+                        $interestRate->paidIn[] = $data->value;
+                    }
                 }
             }
 

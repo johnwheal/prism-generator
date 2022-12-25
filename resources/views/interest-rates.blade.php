@@ -99,6 +99,10 @@
                 {
                     name: "Investment Interest Rate",
                     data: {{ json_encode($overallInvestmentDataItem->values) }}
+                },
+                {
+                    name: "Bank of England Interest Rate",
+                    data: {{ json_encode($boeDataItem->values) }}
                 }
             ],
             xaxis: {
@@ -125,7 +129,8 @@
             },
             colors: [
                 "#F00",
-                "#00F"
+                "#00F",
+                "#000"
             ]
         }
         var chart = new ApexCharts(
