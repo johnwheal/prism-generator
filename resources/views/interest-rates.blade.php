@@ -97,7 +97,7 @@
                     data: {{ json_encode($overallLiabilityDataItem->values) }}
                 },
                 {
-                    name: "Investment Interest Rate",
+                    name: "Savings Interest Rate",
                     data: {{ json_encode($overallInvestmentDataItem->values) }}
                 },
                 {
