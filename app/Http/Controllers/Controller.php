@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\BoeInterestRate;
 use App\Models\DataItem;
+use App\Models\DayToDay;
 use App\Models\Donation;
 use App\Models\InterestRate;
 use App\Models\Investment;
@@ -250,6 +251,23 @@ class Controller extends BaseController
         return view('charity', [
             'cumulativeDonations' => $cumulativeDonations,
             'donationsPerQuarter' => $donationsPerQuarter,
+        ]);
+    }
+
+    public function dayToDay()
+    {
+        $categories = DayToDay::getAllCategoryTypes();
+        $dayToDay = [];
+
+        foreach ($categories as $category) {
+            $dayToDay[] = new DayToDay($category);
+        }
+
+        $overall = DayToDay::getOverallDayToDay($dayToDay);
+        array_unshift($dayToDay, $overall);
+
+        return view('day-to-day', [
+            'dayToDay' => $dayToDay,
         ]);
     }
 }

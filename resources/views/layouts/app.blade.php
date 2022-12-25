@@ -62,6 +62,12 @@
                             Charity
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if(Route::currentRouteName() == 'dayToDay') active @endif" href="{{ route('dayToDay') }}.html">
+                            <x-feathericon-credit-card/>
+                            Day To Day
+                        </a>
+                    </li>
                 </ul>
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
                     <span>Other</span>

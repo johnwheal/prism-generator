@@ -20,3 +20,4 @@ Route::get('/liabilities', [Controller::class, 'liabilities'])->name('liabilitie
 Route::get('/interest-rates', [Controller::class, 'interestRates'])->name('interestRates');
 Route::get('/investments', [Controller::class, 'investments'])->name('investments');
 Route::get('/charity', [Controller::class, 'charity'])->name('charity');
+Route::get('/day-to-day', [Controller::class, 'dayToDay'])->name('dayToDay');
