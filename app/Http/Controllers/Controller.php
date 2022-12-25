@@ -118,31 +118,57 @@ class Controller extends BaseController
      */
     public function interestRates()
     {
-        $interestRates = InterestRate::getAllInterestRates();
+        $liabilityInterestRates = InterestRate::getAllLiabilitiesInterestRates();
 
-        foreach ($interestRates as $interestRate) {
-            $dataItems[] = new DataItem(
+        $liabilityDataItems = [];
+
+        foreach ($liabilityInterestRates as $interestRate) {
+            $liabilityDataItems[] = new DataItem(
                 $interestRate->name,
                 $interestRate->getPreciseTimestamps(),
                 $interestRate->values
             );
         }
 
-        $overallInterestRates = InterestRate::getOverallInterestRate($interestRates);
-        $overallDataItem = new DataItem(
-            'Overall Interest Rates',
-            $overallInterestRates->getPreciseTimestamps(),
-            $overallInterestRates->values
+        $overallLiabilityInterestRates = InterestRate::getOverallInterestRate($liabilityInterestRates);
+        $overallLiabilityDataItem = new DataItem(
+            'Overall Liability Interest Rates',
+            $overallLiabilityInterestRates->getPreciseTimestamps(),
+            $overallLiabilityInterestRates->values
         );
 
-        $effectiveInterestRate = $overallInterestRates->getEffectiveInterestRate();
-        $highestInterestRate = InterestRate::getHighestInterestRate($interestRates);
-        $lowestInterestRate = InterestRate::getLowestInterestRate($interestRates);
+        $effectiveLiabilityInterestRate = $overallLiabilityInterestRates->getEffectiveInterestRate();
+        $highestInterestRate = InterestRate::getHighestInterestRate($liabilityInterestRates);
+        $lowestInterestRate = InterestRate::getLowestInterestRate($liabilityInterestRates);
+
+        //Get the investment data
+        $investmentDataItems = [];
+        $investmentInterestRates = InterestRate::getAllInvestmentInterestRates();
+
+        foreach ($investmentInterestRates as $interestRate) {
+            $investmentDataItems[] = new DataItem(
+                $interestRate->name,
+                $interestRate->getPreciseTimestamps(),
+                $interestRate->values
+            );
+        }
+
+        $overallInvestmentInterestRates = InterestRate::getOverallInterestRate($investmentInterestRates);
+        $overallInvestmentDataItem = new DataItem(
+            'Overall Investment Interest Rates',
+            $overallInvestmentInterestRates->getPreciseTimestamps(),
+            $overallInvestmentInterestRates->values
+        );
+
+        $effectiveInvestmentInterestRate = $overallInvestmentInterestRates->getEffectiveInterestRate();
 
         return view('interest-rates', [
-            'effectiveInterestRate' => $effectiveInterestRate,
-            'overallDataItem' => $overallDataItem,
-            'dataItems' => $dataItems,
+            'effectiveLiabilityInterestRate' => $effectiveLiabilityInterestRate,
+            'effectiveInvestmentInterestRate' => $effectiveInvestmentInterestRate,
+            'overallLiabilityDataItem' => $overallLiabilityDataItem,
+            'overallInvestmentDataItem' => $overallInvestmentDataItem,
+            'liabilityDataItems' => $liabilityDataItems,
+            'investmentDataItems' => $investmentDataItems,
             'highestInterestRate' => $highestInterestRate,
             'lowestInterestRate' => $lowestInterestRate,
         ]);

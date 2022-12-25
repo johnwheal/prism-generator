@@ -17,26 +17,50 @@ class InterestRate extends AbstractAsset
     public bool $hasPaidIn = true;
 
     /**
-     * Get all the assets
+     * Get all liability interest rates
      *
      * @return array
      */
-    public static function getAllInterestRates(): array
+    public static function getAllLiabilitiesInterestRates()
     {
-        $jsonLiabilities = Storage::get('data/liabilities.json');
-        $jsonLiabilities = json_decode($jsonLiabilities);
+        return self::getAllInterestRates('data/liabilities.json');
+    }
+
+    /**
+     * Get all interest rates
+     *
+     * @return array
+     */
+    public static function getAllInvestmentInterestRates()
+    {
+        return self::getAllInterestRates('data/investments.json');
+    }
+
+    /**
+     * Get all the interest rates fora given type of asset
+     *
+     * @param string $fileName
+     * @return array
+     */
+    private static function getAllInterestRates(string $fileName): array
+    {
+        $jsonData= Storage::get($fileName);
+        $jsonData = json_decode($jsonData);
 
         //This is the final list of interest rates that get returned
         $interestRates = [];
 
-        foreach ($jsonLiabilities as $jsonLiability) {
+        foreach ($jsonData as $json) {
             $interestRate = new InterestRate();
-            $interestRate->name = $jsonLiability->name;
+            $interestRate->name = $json->name;
 
-            foreach ($jsonLiability->data as $data) {
-                $interestRate->values[] = $data->interest_rate;
-                $interestRate->paidIn[] = $data->value;
-                $interestRate->dates[] = self::convertQuarterToDate($data->date);
+            //Don't care if it's not got an interest rate
+            if ($json->fixed_interest) {
+                foreach ($json->data as $data) {
+                    $interestRate->values[] = $data->interest_rate;
+                    $interestRate->paidIn[] = $data->value;
+                    $interestRate->dates[] = self::convertQuarterToDate($data->date);
+                }
             }
 
             $interestRates[] = $interestRate;
