@@ -73,18 +73,16 @@ class DayToDay extends AbstractAsset
         $overallDayToDay->name = 'Overall';
 
         foreach ($dayToDays as $dayToDay) {
-            if ($dayToDay->name != 'income') {
-                $arrayKey = array_keys($dayToDay->values)[0];
+            $arrayKey = array_keys($dayToDay->values)[0];
 
-                for ($index = 0; $index < count($dayToDay->values[$arrayKey]); $index++) {
-                    $overallValue = 0;
+            for ($index = 0; $index < count($dayToDay->values[$arrayKey]); $index++) {
+                $overallValue = 0;
 
-                    foreach ($dayToDay->values as $value) {
-                        $overallValue += $value[$index];
-                    }
-
-                    $overallDayToDay->values[$dayToDay->name][] = $overallValue;
+                foreach ($dayToDay->values as $value) {
+                    $overallValue += $value[$index];
                 }
+
+                $overallDayToDay->values[$dayToDay->name][] = $overallValue;
             }
         }
 

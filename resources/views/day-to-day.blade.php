@@ -19,8 +19,7 @@
                     var options = {
                         chart: {
                             height: 500,
-                            type: "area",
-                            stacked: true,
+                            stacked: true
                         },
                         dataLabels: {
                             enabled: false
@@ -32,6 +31,11 @@
                             @foreach(array_keys($category->values) as $dayCategory)
                             {
                                 name: "{{ ucwords(str_replace('_', ' ', $dayCategory)) }}",
+                                @if ($dayCategory == 'income')
+                                type: "line",
+                                @else
+                                type: "area",
+                                @endif
                                 data: {{ json_encode($category->values[$dayCategory]) }}
                             },
                             @endforeach
@@ -56,7 +60,7 @@
                             }
                         },
                         colors: [
-                            '#3B7DDD',
+                            '#000',
                             '#fd7e14',
                             '#669ae5',
                             '#20c997',
