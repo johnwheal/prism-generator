@@ -56,6 +56,7 @@ class GenerateStatic extends Command
         $this->buildWebpage('/investments');
         $this->buildWebpage('/interest-rates');
         $this->buildWebpage('/charity');
+        $this->buildWebpage('/day-to-day');
     }
 
     private function buildWebpage($name)
