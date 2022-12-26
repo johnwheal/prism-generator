@@ -33,6 +33,7 @@
                                 name: "{{ ucwords(str_replace('_', ' ', $dayCategory)) }}",
                                 @if ($dayCategory == 'income')
                                 type: "line",
+                                color: "#000",
                                 @else
                                 type: "area",
                                 @endif
@@ -60,7 +61,7 @@
                             }
                         },
                         colors: [
-                            '#000',
+                            '#3B7DDD',
                             '#fd7e14',
                             '#669ae5',
                             '#20c997',
