@@ -86,6 +86,11 @@ class DayToDay extends AbstractAsset
             }
         }
 
+        //Move the income to the end of the chart
+        $income = reset($overallDayToDay->values);
+        array_shift($overallDayToDay->values);
+        $overallDayToDay->values['income'] = $income;
+
         return $overallDayToDay;
     }
 }

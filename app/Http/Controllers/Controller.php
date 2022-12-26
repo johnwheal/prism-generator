@@ -254,6 +254,11 @@ class Controller extends BaseController
         ]);
     }
 
+    /**
+     * Get the day to day
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function dayToDay()
     {
         $categories = DayToDay::getAllCategoryTypes();
