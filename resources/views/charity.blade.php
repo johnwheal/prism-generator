@@ -48,7 +48,7 @@
             ],
             xaxis: {
                 type: "datetime",
-                categories: {{ json_encode($cumulativeDonations->dates) }},
+                categories: {{ json_encode($cumulativeDonations->getPreciseTimestamps()) }},
             },
             yaxis: {
                 forceNiceScale: true,
@@ -94,7 +94,7 @@
             ],
             xaxis: {
                 type: "datetime",
-                categories: {{ json_encode($donationsPerQuarter->dates) }},
+                categories: {{ json_encode($donationsPerQuarter->getPreciseTimestamps()) }},
             },
             yaxis: {
                 forceNiceScale: true,

@@ -45,6 +45,9 @@ class Investment extends AbstractAsset
         $jsonAssets = json_decode($jsonAssets);
 
         $investments = self::getInvestmentSpecificValues($jsonAssets, $investments);
+        foreach ($investments as $investment) {
+            $investment->paidIn = $investment->getCalculatedPaidIn();
+        }
 
         return $investments;
     }

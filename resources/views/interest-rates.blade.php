@@ -107,7 +107,7 @@
             ],
             xaxis: {
                 type: "datetime",
-                categories: {{ json_encode($overallLiabilityDataItem->dates) }},
+                categories: {{ json_encode($overallLiabilityDataItem->getPreciseTimestamps()) }},
             },
             yaxis: {
                 min: 0,
@@ -163,7 +163,7 @@
             ],
             xaxis: {
                 type: "datetime",
-                categories: {{ json_encode($dataItem->dates) }},
+                categories: {{ json_encode($dataItem->getPreciseTimestamps()) }},
             },
             yaxis: {
                 min: 0,
@@ -222,7 +222,7 @@
             ],
             xaxis: {
                 type: "datetime",
-                categories: {{ json_encode($dataItem->dates) }},
+                categories: {{ json_encode($dataItem->getPreciseTimestamps()) }},
             },
             yaxis: {
                 min: 0,

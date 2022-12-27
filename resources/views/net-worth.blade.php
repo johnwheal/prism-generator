@@ -10,7 +10,7 @@
                     <div class="row">
                         <h5 class="card-title">Net Worth</h5>
                     </div>
-                    <h1 class="display-5 mt-1 mb-3">&pound;{{ number_format($netWorth, 0, '.', ',' ) }}</h1>
+                    <h1 class="display-5 mt-1 mb-3">&pound;{{ number_format($totalNetWorth, 0, '.', ',' ) }}</h1>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    @if (count($dataItems) > 0)
+    @if (count($netWorth) > 0)
         <script>
             // Area chart
             var options = {
@@ -63,7 +63,7 @@
                     curve: "straight"
                 },
                 series: [
-                    @foreach($dataItems as $dataItem)
+                    @foreach($netWorth as $dataItem)
                     {
                         name: "{{ $dataItem->name }}",
                         data: {{ json_encode($dataItem->values) }}
@@ -72,11 +72,11 @@
                 ],
                 xaxis: {
                     type: "datetime",
-                    categories: {{ json_encode($dataItems[0]->dates) }},
+                    categories: {{ json_encode($netWorth[0]->getPreciseTimestamps()) }},
                 },
                 yaxis: {
                     min: 0,
-                    max: {{ ceil($netWorth / 100000) * 100000 }},
+                    max: {{ ceil($totalNetWorth / 100000) * 100000 }},
                     forceNiceScale: true,
                     decimalsInFloat: 0,
                     tickAmount: 25,

@@ -59,7 +59,7 @@
             ],
             xaxis: {
             type: "datetime",
-            categories: {{ json_encode($overallDataItem->dates) }},
+            categories: {{ json_encode($overallDataItem->getPreciseTimestamps()) }},
         },
             yaxis: {
             forceNiceScale: true,
@@ -118,7 +118,7 @@
                 ],
                 xaxis: {
                     type: "datetime",
-                    categories: {{ json_encode($dataItem->dates) }},
+                    categories: {{ json_encode($dataItem->getPreciseTimestamps()) }},
                 },
                 yaxis: {
                     forceNiceScale: true,

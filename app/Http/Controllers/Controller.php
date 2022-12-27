@@ -29,23 +29,16 @@ class Controller extends BaseController
     public function netWorth()
     {
         $netWorth = NetWorth::getNetWorth();
-        $dataItems = [];
-        foreach ($netWorth as $asset) {
-            $dataItems[] = new DataItem(
-                $asset->name,
-                $asset->getPreciseTimestamps(),
-                $asset->values,
-            );
-        }
 
         $totalAssets = NetWorth::getTotalAssets($netWorth);
         $totalLiabilities = NetWorth::getTotalLiabilities($netWorth);
-        $netWorth = $totalAssets + $totalLiabilities;
+        $totalNetWorth = $totalAssets + $totalLiabilities;
+
         return view('net-worth', [
-            'dataItems' => $dataItems,
+            'netWorth' => $netWorth,
             'totalAssets' => $totalAssets,
             'totalLiabilities' => $totalLiabilities,
-            'netWorth' => $netWorth,
+            'totalNetWorth' => $totalNetWorth,
         ]);
     }
 
@@ -57,28 +50,11 @@ class Controller extends BaseController
     public function assets()
     {
         $assets = Asset::getAllAssets();
-        $dataItems = [];
-
-        foreach ($assets as $asset) {
-            $dataItems[] = new DataItem(
-                $asset->name,
-                $asset->getPreciseTimestamps(),
-                $asset->values,
-                $asset->getCalculatedPaidIn()
-            );
-        }
-
         $overallPerformance = Asset::combineData($assets);
-        $overallDataItem = new DataItem(
-            'Overall Performance',
-            $overallPerformance->getPreciseTimestamps(),
-            $overallPerformance->values,
-            $overallPerformance->getCalculatedPaidIn()
-        );
 
         return view('assets', [
-            'overallDataItem' => $overallDataItem,
-            'dataItems' => $dataItems,
+            'overallDataItem' => $overallPerformance,
+            'dataItems' => $assets,
         ]);
     }
 
@@ -90,26 +66,12 @@ class Controller extends BaseController
     public function liabilities()
     {
         $liabilities = Liability::getAllLiabilities();
-        $dataItems = [];
-
-        foreach ($liabilities as $liability) {
-            $dataItems[] = new DataItem(
-                $liability->name,
-                $liability->getPreciseTimestamps(),
-                $liability->values
-            );
-        }
 
         $overallPerformance = Liability::combineData($liabilities);
-        $overallDataItem = new DataItem(
-            'Overall Performance',
-            $overallPerformance->getPreciseTimestamps(),
-            $overallPerformance->values
-        );
 
         return view('liabilities', [
-            'overallDataItem' => $overallDataItem,
-            'dataItems' => $dataItems,
+            'overallDataItem' => $overallPerformance,
+            'dataItems' => $liabilities,
         ]);
     }
 
@@ -122,63 +84,28 @@ class Controller extends BaseController
     {
         $liabilityInterestRates = InterestRate::getAllLiabilitiesInterestRates();
 
-        $liabilityDataItems = [];
-
-        foreach ($liabilityInterestRates as $interestRate) {
-            $liabilityDataItems[] = new DataItem(
-                $interestRate->name,
-                $interestRate->getPreciseTimestamps(),
-                $interestRate->values
-            );
-        }
-
         $overallLiabilityInterestRates = InterestRate::getOverallInterestRate($liabilityInterestRates);
-        $overallLiabilityDataItem = new DataItem(
-            'Overall Liability Interest Rates',
-            $overallLiabilityInterestRates->getPreciseTimestamps(),
-            $overallLiabilityInterestRates->values
-        );
 
         $effectiveLiabilityInterestRate = $overallLiabilityInterestRates->getEffectiveInterestRate();
         $highestInterestRate = InterestRate::getHighestInterestRate($liabilityInterestRates);
         $lowestInterestRate = InterestRate::getLowestInterestRate($liabilityInterestRates);
 
         //Get the investment data
-        $investmentDataItems = [];
         $investmentInterestRates = InterestRate::getAllInvestmentInterestRates();
-
-        foreach ($investmentInterestRates as $interestRate) {
-            $investmentDataItems[] = new DataItem(
-                $interestRate->name,
-                $interestRate->getPreciseTimestamps(),
-                $interestRate->values
-            );
-        }
-
         $overallInvestmentInterestRates = InterestRate::getOverallInterestRate($investmentInterestRates);
-        $overallInvestmentDataItem = new DataItem(
-            'Overall Investment Interest Rates',
-            $overallInvestmentInterestRates->getPreciseTimestamps(),
-            $overallInvestmentInterestRates->values
-        );
 
         $effectiveInvestmentInterestRate = $overallInvestmentInterestRates->getEffectiveInterestRate();
 
         $boeInterestRates = InterestRate::getBankOfEndEnglandInterestRates();
-        $boeDataItem = new DataItem(
-            'Bank of England Interest Rate',
-            $boeInterestRates->getPreciseTimestamps(),
-            $boeInterestRates->values
-        );
 
         return view('interest-rates', [
             'effectiveLiabilityInterestRate' => $effectiveLiabilityInterestRate,
             'effectiveInvestmentInterestRate' => $effectiveInvestmentInterestRate,
-            'overallLiabilityDataItem' => $overallLiabilityDataItem,
-            'overallInvestmentDataItem' => $overallInvestmentDataItem,
-            'boeDataItem' => $boeDataItem,
-            'liabilityDataItems' => $liabilityDataItems,
-            'investmentDataItems' => $investmentDataItems,
+            'overallLiabilityDataItem' => $overallLiabilityInterestRates,
+            'overallInvestmentDataItem' => $overallInvestmentInterestRates,
+            'boeDataItem' => $boeInterestRates,
+            'liabilityDataItems' => $liabilityInterestRates,
+            'investmentDataItems' => $investmentInterestRates,
             'highestInterestRate' => $highestInterestRate,
             'lowestInterestRate' => $lowestInterestRate,
         ]);
@@ -192,24 +119,8 @@ class Controller extends BaseController
     public function investments()
     {
         $investments = Investment::getAllInvestments();
-        $dataItems = [];
-
-        foreach ($investments as $investment) {
-            $dataItems[] = new DataItem(
-                $investment->name,
-                $investment->getPreciseTimestamps(),
-                $investment->values,
-                $investment->getCalculatedPaidIn()
-            );
-        }
 
         $overallPerformance = Asset::combineData($investments);
-        $overallDataItem = new DataItem(
-            'Overall Performance',
-            $overallPerformance->getPreciseTimestamps(),
-            $overallPerformance->values,
-            $overallPerformance->getCalculatedPaidIn()
-        );
 
         $lowRiskValue = Investment::getLowRiskValue($investments);
         $liquidValue = Investment::getLiquidValue($investments);
@@ -217,8 +128,8 @@ class Controller extends BaseController
         $allocation = Investment::getAllocations($investments);
 
         return view('investments', [
-            'overallDataItem' => $overallDataItem,
-            'dataItems' => $dataItems,
+            'overallDataItem' => $overallPerformance,
+            'dataItems' => $investments,
             'lowRiskValue' => $lowRiskValue,
             'liquidValue' => $liquidValue,
             'allocation' => $allocation,
@@ -232,21 +143,11 @@ class Controller extends BaseController
      */
     public function charity()
     {
-        $donations = Donation::getAllDonations();
+        $donationsPerQuarter = Donation::getAllDonations();
 
-        $donationsPerQuarter = new DataItem(
-            'Donations',
-            $donations->getPreciseTimestamps(),
-            $donations->values
-        );
+        $cumulativeDonations = clone $donationsPerQuarter;
+        $cumulativeDonations->convertToCumulative();
 
-        $donations->convertToCumulative();
-
-        $cumulativeDonations = new DataItem(
-            'Cumulative Donations',
-            $donations->getPreciseTimestamps(),
-            $donations->values
-        );
 
         return view('charity', [
             'cumulativeDonations' => $cumulativeDonations,
@@ -268,6 +169,7 @@ class Controller extends BaseController
             $dayToDay[] = new DayToDay($category);
         }
 
+        //Put the income at the end
         $overall = DayToDay::getOverallDayToDay($dayToDay);
         array_unshift($dayToDay, $overall);
 

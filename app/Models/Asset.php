@@ -23,6 +23,10 @@ class Asset extends AbstractAsset
      */
     public static function getAllAssets(): array
     {
-        return self::getAllData('data/assets.json');
+        $assets = self::getAllData('data/assets.json');
+        foreach ($assets as $asset) {
+            $asset->paidIn = $asset->getCalculatedPaidIn();
+        }
+        return $assets;
     }
 }

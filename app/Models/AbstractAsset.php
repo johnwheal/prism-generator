@@ -86,7 +86,7 @@ abstract class AbstractAsset
     }
 
     /**
-     * Add an inital quarter
+     * Add an initial quarter
      *
      * @param $assets
      * @return mixed
@@ -300,5 +300,15 @@ abstract class AbstractAsset
         }
 
         return $paidIn;
+    }
+
+    /**
+     * Gets whether the asset has paid in data
+     *
+     * @return bool
+     */
+    public function hasPaidIn()
+    {
+        return $this->hasPaidIn;
     }
 }
