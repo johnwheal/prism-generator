@@ -50,6 +50,9 @@
                             forceNiceScale: true,
                             decimalsInFloat: 0,
                             tickAmount: 25,
+                            @if ($index == 0)
+                            max: {{ max(end($category->values)) * 1.25 }},
+                            @endif
                             labels: {
                                 formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
                             }
