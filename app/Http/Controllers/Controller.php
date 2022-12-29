@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\BoeInterestRate;
+use App\Models\Company;
 use App\Models\DataItem;
 use App\Models\DayToDay;
 use App\Models\Donation;
@@ -175,6 +176,23 @@ class Controller extends BaseController
 
         return view('day-to-day', [
             'dayToDay' => $dayToDay,
+        ]);
+    }
+
+    /**
+     * Get the crowdfunding
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function crowdfunding()
+    {
+        $companies = Company::getCompanies();
+        $platformData = Company::getPlatformData($companies);
+        $statusData = Company::getCompanyStatusData($companies);
+
+        return view('crowdfunding', [
+           'platforms' => $platformData,
+            'status' => $statusData,
         ]);
     }
 }

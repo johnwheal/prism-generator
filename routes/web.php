@@ -21,3 +21,4 @@ Route::get('/interest-rates', [Controller::class, 'interestRates'])->name('inter
 Route::get('/investments', [Controller::class, 'investments'])->name('investments');
 Route::get('/charity', [Controller::class, 'charity'])->name('charity');
 Route::get('/day-to-day', [Controller::class, 'dayToDay'])->name('dayToDay');
+Route::get('/crowdfunding', [Controller::class, 'crowdfunding'])->name('crowdfunding');
