@@ -37,6 +37,13 @@
                             <x-feathericon-bar-chart/>
                             Investments
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @if(Route::currentRouteName() == 'crowdfunding') active @endif" href="{{ route('crowdfunding') }}.html">
+                            <x-feathericon-users/>
+                            Crowdfunding
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link @if(Route::currentRouteName() == 'assets') active @endif" href="{{ route('assets') }}.html">
                             <x-feathericon-arrow-up/>

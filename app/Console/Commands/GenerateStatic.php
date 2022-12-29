@@ -54,6 +54,7 @@ class GenerateStatic extends Command
         $this->buildWebpage('/assets');
         $this->buildWebpage('/liabilities');
         $this->buildWebpage('/investments');
+        $this->buildWebpage('/crowdfunding');
         $this->buildWebpage('/interest-rates');
         $this->buildWebpage('/charity');
         $this->buildWebpage('/day-to-day');
