@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\Company;
+use App\Models\CrowdfundingInvestment;
 use App\Models\DayToDay;
 use App\Models\Donation;
 use App\Models\InterestRate;
@@ -187,11 +188,13 @@ class Controller extends BaseController
         $companies = Company::getCompanies();
         $platformData = Company::getPlatformData($companies);
         $statusData = Company::getCompanyStatusData($companies);
+        $overallData = Company::getOverall($companies);
 
         return view('crowdfunding', [
             'platforms' => $platformData,
             'status' => $statusData,
             'companies' => $companies,
+            'overallDataItem' => $overallData,
         ]);
     }
 }

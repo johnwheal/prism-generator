@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CrowdfundingInvestment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -65,7 +66,7 @@ class Company
 
             $company->sharePrice = new SharePrice($jsonCompany->share_price);
 
-            $company->investments = new CrowdfundingInvestment($jsonCompany->investments, $company->sharePrice);
+            $company->investments = CrowdfundingInvestment::getInvestments($jsonCompany->investments, $company->sharePrice);
 
             $companies[] = $company;
         }
@@ -113,6 +114,23 @@ class Company
         }
 
         return $statues;
+    }
+
+    /**
+     * Get overall companies
+     *
+     * @param array $companies
+     * @return Asset
+     */
+    public static function getOverall(array $companies)
+    {
+        $investments = [];
+
+        foreach ($companies as $company) {
+            $investments[] = $company->investments;
+        }
+
+        return CrowdfundingInvestment::combineData($investments);
     }
 
 }

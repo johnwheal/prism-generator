@@ -15,23 +15,26 @@ class CrowdfundingInvestment extends Investment
     public array $numShares = [];
 
     /**
-     * The constructor
+     * Get investments
      *
      * @param array $investmentsJson
      * @param $sharePrices
+     * @return CrowdfundingInvestment
      */
-    public function __construct(array $investmentsJson, $sharePrices)
+    public static function getInvestments(array $investmentsJson, $sharePrices)
     {
-        $this->dates = $sharePrices->dates;
+        $investment = new self();
+        $investment->dates = $sharePrices->dates;
+        $investment->name = ''; //The name is not important
 
         //Loop through all the quarters and calculate the number of shares held
-        foreach ($this->dates as $index => $date) {
+        foreach ($investment->dates as $index => $date) {
             if ($index == 0) {
                 $numSharesHeld = 0;
                 $paidIn = 0;
             } else {
-                $numSharesHeld = $this->numShares[count($this->numShares)-1];
-                $paidIn = $this->paidIn[count($this->paidIn)-1];
+                $numSharesHeld = $investment->numShares[count($investment->numShares)-1];
+                $paidIn = $investment->paidIn[count($investment->paidIn)-1];
             }
 
             foreach ($investmentsJson as $investmentJson) {
@@ -43,13 +46,14 @@ class CrowdfundingInvestment extends Investment
                 }
             }
 
-            $this->numShares[] = $numSharesHeld;
-            $this->paidIn[] = $paidIn;
+            $investment->numShares[] = $numSharesHeld;
+            $investment->paidIn[] = $paidIn;
 
             //Calculate the value of a share on a given quarter
-            $this->values[] = $sharePrices->values[$index] * $numSharesHeld;
+            $investment->values[] = $sharePrices->values[$index] * $numSharesHeld;
         }
 
+        return $investment;
     }
 
 }
