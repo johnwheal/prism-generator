@@ -168,7 +168,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>{{ $company->name }}</h4>
+                        <h4>{{ $company->name }} - {{ $company->status }}</h4>
                     </div>
                     <div class="card-body">
                         <div id="chart-{{$index}}"></div>

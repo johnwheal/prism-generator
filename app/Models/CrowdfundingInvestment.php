@@ -21,8 +21,10 @@ class CrowdfundingInvestment extends Investment
      * @param $sharePrices
      * @return CrowdfundingInvestment
      */
-    public static function getInvestments(array $investmentsJson, $sharePrices)
+    public static function getInvestments(array $investmentsJson, $sharePrices, array|null $withdrawalsJson): CrowdfundingInvestment
     {
+        if ($withdrawalsJson == null) $withdrawalsJson = [];
+
         $investment = new self();
         $investment->dates = $sharePrices->dates;
         $investment->name = ''; //The name is not important
@@ -43,6 +45,15 @@ class CrowdfundingInvestment extends Investment
                 if ($date->timestamp == $investmentDate->timestamp) {
                     $numSharesHeld += $investmentJson->num_shares;
                     $paidIn += $numSharesHeld * $sharePrices->values[$index];
+                }
+            }
+
+            foreach ($withdrawalsJson as $withdrawalJson) {
+                $withdrawalDate = self::convertQuarterToDate($withdrawalJson->date);
+
+                if ($date->timestamp == $withdrawalDate->timestamp) {
+                    $numSharesHeld -= $withdrawalJson->num_shares;
+                    $paidIn -= $withdrawalJson->amount;
                 }
             }
 

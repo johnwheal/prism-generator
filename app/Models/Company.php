@@ -66,7 +66,7 @@ class Company
 
             $company->sharePrice = new SharePrice($jsonCompany->share_price);
 
-            $company->investments = CrowdfundingInvestment::getInvestments($jsonCompany->investments, $company->sharePrice);
+            $company->investments = CrowdfundingInvestment::getInvestments($jsonCompany->investments, $company->sharePrice, $jsonCompany->withdrawals ?? null);
 
             $companies[] = $company;
         }
