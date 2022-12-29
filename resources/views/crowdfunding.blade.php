@@ -123,22 +123,62 @@
                     series: [
                         {
                             name: "Share Price",
+                            type: 'line',
                             data: {{ json_encode($company->sharePrice->values) }}
+                        },
+                        {
+                            name: "Paid In",
+                            type: 'area',
+                            data: {{ json_encode($company->investments->paidIn) }}
+                        },
+                        {
+                            name: "Value",
+                            type: 'area',
+                            data: {{ json_encode($company->investments->values) }}
                         }
                     ],
                     xaxis: {
                         type: "datetime",
                         categories: {{ json_encode($company->sharePrice->getPreciseTimestamps()) }},
                     },
-                    yaxis: {
-                        forceNiceScale: true,
-                        min: 0,
-                        decimalsInFloat: 0,
-                        @yield('max-y')
-                        labels: {
-                            formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                    yaxis: [
+                        {
+                            seriesName: "Share Price",
+                            title: {
+                                text: "Share Price"
+                            },
+                            forceNiceScale: true,
+                            min: 0,
+                            opposite: true,
+                            labels: {
+                                formatter: (value) => { return "£" + value.toFixed(4); },
+                            }
+                        },
+                        {
+                            seriesName: "Paid In",
+                            forceNiceScale: true,
+                            min: 0,
+                            max: {{ max($company->investments->values) }},
+                            labels: {
+                                show: false,
+                                formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                            }
+                        },
+                        {
+                            seriesName: "Value",
+                            title: {
+                                text: "Value"
+                            },
+                            forceNiceScale: true,
+                            max: {{ max($company->investments->values) }},
+                            min: 0,
+                            labels: {
+                                formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                            }
                         }
-                    },
+                    ],
+                    horizontalAlign: "left",
+                    offsetX: 40,
                     tooltip: {
                         enabled: true,
                         x: {
@@ -146,9 +186,9 @@
                         }
                     },
                     colors: [
-                        '#6f42c1',
-                        '#669ae5',
-                        '#dc3545'
+                        '#000',
+                        '#fd7e14',
+                        '#3B7DDD',
                     ]
                 }
                 var chart = new ApexCharts(

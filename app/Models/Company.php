@@ -38,6 +38,13 @@ class Company
     public SharePrice $sharePrice;
 
     /**
+     * The crowdfunding investment
+     *
+     * @var CrowdfundingInvestment
+     */
+    public $investments;
+
+    /**
      * Get all the companies
      *
      * @return array
@@ -50,13 +57,15 @@ class Company
         //This is the final list of companies that get returned
         $companies = [];
 
-        foreach ($jsonCompanies as $jsonCompany) {
+        foreach ($jsonCompanies as $index => $jsonCompany) {
             $company = new self();
             $company->name = $jsonCompany->name;
             $company->platform = $jsonCompany->platform;
             $company->status = $jsonCompany->status;
 
             $company->sharePrice = new SharePrice($jsonCompany->share_price);
+
+            $company->investments = new CrowdfundingInvestment($jsonCompany->investments, $company->sharePrice);
 
             $companies[] = $company;
         }
