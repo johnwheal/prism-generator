@@ -6,6 +6,76 @@
 
     <div class="row">
 
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Overall Performance</h4>
+                </div>
+                <div class="card-body">
+                    <div id="chart-overall"></div>
+                </div>
+            </div>
+
+            <script>
+                // Area chart
+                var options = {
+                    chart: {
+                        height: 500,
+                        type: "area",
+                        stacked: false
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: "straight"
+                    },
+                    series: [
+                        {
+                            name: "Paid In Capital",
+                            data: {{ json_encode($overallDataItem->paidIn) }}
+                        },
+                        {
+                            name: "Value",
+                            data: {{ json_encode($overallDataItem->values) }}
+                        }
+                    ],
+                    xaxis: {
+                        type: "datetime",
+                        categories: {{ json_encode($overallDataItem->getPreciseTimestamps()) }},
+                    },
+                    yaxis: {
+                        forceNiceScale: true,
+                        decimalsInFloat: 0,
+                        @yield('max-y')
+                        labels: {
+                            formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        x: {
+                            format: 'MMM yyyy'
+                        }
+                    },
+                    colors: [
+                        '#fd7e14',
+                        '#3B7DDD',
+                        '#669ae5',
+                        '#20c997',
+                        '#6f42c1',
+                        '#dc3545'
+                    ]
+                }
+                var chart = new ApexCharts(
+                    document.querySelector("#chart-overall"),
+                    options
+                );
+                chart.render();
+            </script>
+
+        </div>
+
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
@@ -93,76 +163,6 @@
             var chart = new ApexCharts(document.querySelector("#status-pie-chart"), options);
             chart.render();
         </script>
-
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Overall Performance</h4>
-                </div>
-                <div class="card-body">
-                    <div id="chart-overall"></div>
-                </div>
-            </div>
-
-            <script>
-                // Area chart
-                var options = {
-                    chart: {
-                        height: 500,
-                        type: "area",
-                        stacked: false
-                    },
-                    dataLabels: {
-                        enabled: false
-                    },
-                    stroke: {
-                        curve: "straight"
-                    },
-                    series: [
-                        {
-                            name: "Paid In Capital",
-                            data: {{ json_encode($overallDataItem->paidIn) }}
-                        },
-                        {
-                            name: "Value",
-                            data: {{ json_encode($overallDataItem->values) }}
-                        }
-                    ],
-                    xaxis: {
-                        type: "datetime",
-                        categories: {{ json_encode($overallDataItem->getPreciseTimestamps()) }},
-                    },
-                    yaxis: {
-                        forceNiceScale: true,
-                        decimalsInFloat: 0,
-                        @yield('max-y')
-                        labels: {
-                            formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
-                        }
-                    },
-                    tooltip: {
-                        enabled: true,
-                        x: {
-                            format: 'MMM yyyy'
-                        }
-                    },
-                    colors: [
-                        '#fd7e14',
-                        '#3B7DDD',
-                        '#669ae5',
-                        '#20c997',
-                        '#6f42c1',
-                        '#dc3545'
-                    ]
-                }
-                var chart = new ApexCharts(
-                    document.querySelector("#chart-overall"),
-                    options
-                );
-                chart.render();
-            </script>
-
-        </div>
 
         @foreach($companies as $index => $company)
             <div class="col-lg-12">
