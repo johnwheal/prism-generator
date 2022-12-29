@@ -19,6 +19,13 @@ abstract class DateClass
     public array $dates = [];
 
     /**
+     * Flag whether the item has paid in data
+     *
+     * @var bool
+     */
+    protected bool $hasPaidIn = false;
+
+    /**
      * Add an initial quarter
      *
      * @param $assets
@@ -104,11 +111,13 @@ abstract class DateClass
     /**
      * Pad the data to a date (i.e. add earlier quarters)
      *
-     * @param Carbon $dateToPad
+     * @param Carbon $dateToPadFrom
+     * @param Carbon $dateToPadTo
      * @param bool $shouldNull
+     * @param bool $shouldKeepValue
      * @return void
      */
-    public function padToDate(Carbon $dateToPadFrom, Carbon $dateToPadTo, $shouldNull = false)
+    public function padToDate(Carbon $dateToPadFrom, Carbon $dateToPadTo, bool $shouldNull = false, bool $shouldKeepValue = false)
     {
         $dateToPadTo = $dateToPadTo->clone();
         $dateToPadTo->addDay();
@@ -141,6 +150,8 @@ abstract class DateClass
             } else {
                 if ($shouldNull) {
                     $newValues[] = null;
+                } elseif ($shouldKeepValue) {
+                    $newValues[] = $newValues[count($newValues)-1];
                 } else {
                     $newValues[] = 0;
                 }
@@ -154,6 +165,26 @@ abstract class DateClass
         $this->dates = $newDates;
         $this->values = $newValues;
         $this->paidIn = $newPaidIn;
+    }
+
+    /**
+     * Returns the start quarter
+     *
+     * @return Carbon|false
+     */
+    public static function startQuarter()
+    {
+        return self::convertQuarterToDate(Env::get('START_DATE'));
+    }
+
+    /**
+     * Returns the end quarter
+     *
+     * @return Carbon|false
+     */
+    public static function endQuarter()
+    {
+        return self::convertQuarterToDate(Env::get('END_DATE'));
     }
 
     /**

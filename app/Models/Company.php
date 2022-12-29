@@ -31,6 +31,13 @@ class Company
     public string $status;
 
     /**
+     * The share prices
+     *
+     * @var SharePrice
+     */
+    public SharePrice $sharePrice;
+
+    /**
      * Get all the companies
      *
      * @return array
@@ -48,6 +55,9 @@ class Company
             $company->name = $jsonCompany->name;
             $company->platform = $jsonCompany->platform;
             $company->status = $jsonCompany->status;
+
+            $company->sharePrice = new SharePrice($jsonCompany->share_price);
+
             $companies[] = $company;
         }
 

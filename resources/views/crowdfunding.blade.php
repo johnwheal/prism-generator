@@ -94,6 +94,71 @@
             chart.render();
         </script>
 
+        @foreach($companies as $index => $company)
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>{{ $company->name }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart-{{$index}}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                // Area chart
+                var options = {
+                    chart: {
+                        height: 500,
+                        type: "area",
+                        stacked: false
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: "straight"
+                    },
+                    series: [
+                        {
+                            name: "Share Price",
+                            data: {{ json_encode($company->sharePrice->values) }}
+                        }
+                    ],
+                    xaxis: {
+                        type: "datetime",
+                        categories: {{ json_encode($company->sharePrice->getPreciseTimestamps()) }},
+                    },
+                    yaxis: {
+                        forceNiceScale: true,
+                        min: 0,
+                        decimalsInFloat: 0,
+                        @yield('max-y')
+                        labels: {
+                            formatter: (value) => { return "£" + value.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); },
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        x: {
+                            format: 'MMM yyyy'
+                        }
+                    },
+                    colors: [
+                        '#6f42c1',
+                        '#669ae5',
+                        '#dc3545'
+                    ]
+                }
+                var chart = new ApexCharts(
+                    document.querySelector("#chart-{{ $index }}"),
+                    options
+                );
+                chart.render();
+            </script>
+        @endforeach
+
     </div>
 
 @endsection

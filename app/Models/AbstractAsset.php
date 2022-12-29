@@ -39,13 +39,6 @@ abstract class AbstractAsset extends DateClass
     public array $paidIn = [];
 
     /**
-     * Flag whether the item has paid in data
-     *
-     * @var bool
-     */
-    protected bool $hasPaidIn = false;
-
-    /**
      * Get all the data
      *
      * @param string $fileName

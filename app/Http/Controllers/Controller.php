@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
-use App\Models\BoeInterestRate;
 use App\Models\Company;
-use App\Models\DataItem;
 use App\Models\DayToDay;
 use App\Models\Donation;
 use App\Models\InterestRate;
@@ -191,8 +189,9 @@ class Controller extends BaseController
         $statusData = Company::getCompanyStatusData($companies);
 
         return view('crowdfunding', [
-           'platforms' => $platformData,
+            'platforms' => $platformData,
             'status' => $statusData,
+            'companies' => $companies,
         ]);
     }
 }
