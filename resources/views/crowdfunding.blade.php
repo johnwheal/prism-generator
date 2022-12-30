@@ -6,6 +6,39 @@
 
     <div class="row">
 
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="card-title">Total Portfolio Size</h5>
+                        </div>
+                        <h1 class="display-5 mt-1 mb-3">&pound;{{ number_format($totalPortfolioSize, 0, '.', ',' ) }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="card-title">Total Paid In</h5>
+                        </div>
+                        <h1 class="display-5 mt-1 mb-3">&pound;{{ number_format($totalPaidIn, 0, '.', ',' ) }}</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h5 class="card-title">Total Exit Money</h5>
+                        </div>
+                        <h1 class="display-5 mt-1 mb-3">&pound;{{ number_format($exitMoney, 0, '.', ',' ) }}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">

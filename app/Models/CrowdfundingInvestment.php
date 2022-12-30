@@ -67,4 +67,43 @@ class CrowdfundingInvestment extends Investment
         return $investment;
     }
 
+    /**
+     * Get the total portfolio size
+     *
+     * @return mixed
+     */
+    public function getTotalPortfolioSize()
+    {
+        return $this->values[count($this->values)-1];
+    }
+
+    /**
+     * Get the total paid in
+     *
+     * @return mixed
+     */
+    public function getTotalPaidIn()
+    {
+        return $this->paidIn[count($this->paidIn)-1];
+    }
+
+    /**
+     * Get the exit money
+     *
+     * @return void
+     */
+    public function getExitMoney()
+    {
+        $companies = Company::getCompanies();
+        $exitMoney = 0;
+
+        foreach ($companies as $company) {
+            foreach ($company->withdrawals as $withdrawal) {
+                $exitMoney += $withdrawal;
+            }
+        }
+
+        return $exitMoney;
+    }
+
 }

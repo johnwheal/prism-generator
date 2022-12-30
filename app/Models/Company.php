@@ -46,6 +46,13 @@ class Company
     public $investments;
 
     /**
+     * All the withdrawals
+     *
+     * @var array
+     */
+    public array $withdrawals = [];
+
+    /**
      * Get all the companies
      *
      * @return array
@@ -67,6 +74,10 @@ class Company
             $company->sharePrice = new SharePrice($jsonCompany->share_price);
 
             $company->investments = CrowdfundingInvestment::getInvestments($jsonCompany->investments, $company->sharePrice, $jsonCompany->withdrawals ?? null);
+
+            foreach ($jsonCompany->withdrawals ?? [] as $withdrawal) {
+                $company->withdrawals[] = $withdrawal->amount;
+            }
 
             $companies[] = $company;
         }

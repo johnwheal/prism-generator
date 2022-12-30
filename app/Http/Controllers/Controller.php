@@ -190,11 +190,18 @@ class Controller extends BaseController
         $statusData = Company::getCompanyStatusData($companies);
         $overallData = Company::getOverall($companies);
 
+        $totalPortfolioSize = $overallData->getTotalPortfolioSize();
+        $totalPaidIn = $overallData->getTotalPaidIn();
+        $exitMoney = $overallData->getExitMoney();
+
         return view('crowdfunding', [
             'platforms' => $platformData,
             'status' => $statusData,
             'companies' => $companies,
             'overallDataItem' => $overallData,
+            'totalPortfolioSize' => $totalPortfolioSize,
+            'totalPaidIn' => $totalPaidIn,
+            'exitMoney' => $exitMoney,
         ]);
     }
 }
