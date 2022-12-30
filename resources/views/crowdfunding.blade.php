@@ -221,7 +221,7 @@
                             min: 0,
                             opposite: true,
                             labels: {
-                                formatter: (value) => { return "£" + value.toFixed(4); },
+                                formatter: (value) => { return "£" + value.toFixed(2); },
                             }
                         },
                         {
