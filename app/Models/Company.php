@@ -130,7 +130,10 @@ class Company
             $investments[] = clone $company->investments;
         }
 
-        return CrowdfundingInvestment::combineData($investments);
+        $crowdfunding = CrowdfundingInvestment::combineData($investments);
+        $crowdfunding->name = 'Long Term Investments';
+
+        return $crowdfunding;
     }
 
 }

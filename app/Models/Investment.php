@@ -49,6 +49,15 @@ class Investment extends AbstractAsset
             $investment->paidIn = $investment->getCalculatedPaidIn();
         }
 
+        $companies = Company::getCompanies();
+        $crowdfunding = Company::getOverall($companies);
+
+        //Reposition the long term investments
+        $pension = $investments[count($investments)-1];
+        array_pop($investments);
+        $investments[] = $crowdfunding;
+        $investments[] = $pension;
+
         return $investments;
     }
 
