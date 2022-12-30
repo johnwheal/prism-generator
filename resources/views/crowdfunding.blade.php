@@ -7,7 +7,7 @@
     <div class="row">
 
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
