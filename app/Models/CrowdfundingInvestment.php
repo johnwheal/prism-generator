@@ -44,7 +44,7 @@ class CrowdfundingInvestment extends Investment
 
                 if ($date->timestamp == $investmentDate->timestamp) {
                     $numSharesHeld += $investmentJson->num_shares;
-                    $paidIn += $numSharesHeld * $sharePrices->values[$index];
+                    $paidIn += $investmentJson->num_shares * $sharePrices->values[$index];
                 }
             }
 

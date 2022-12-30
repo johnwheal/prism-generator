@@ -127,7 +127,7 @@ class Company
         $investments = [];
 
         foreach ($companies as $company) {
-            $investments[] = $company->investments;
+            $investments[] = clone $company->investments;
         }
 
         return CrowdfundingInvestment::combineData($investments);
